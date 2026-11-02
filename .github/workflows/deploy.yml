@@ -31,5 +31,9 @@ jobs:
           username: ${{ secrets.EC_USER }}
           key: ${{ secrets.EC_SSH_KEY }}
 
+
+      - name: add perms
+        run: chmod +x ./deploy.sh
+
       - name: run code
         run: ./deploy.sh
