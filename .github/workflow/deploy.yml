@@ -1,0 +1,47 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: check code
+        uses: actions/checkout@4
+
+      - name: setup node js
+        uses: actions/setup-node@4
+        with:
+          node-version: 22
+
+      - name: install deps
+        run: npm ci
+
+      - name: run test
+        run: npm test
+
+      - name: deploy to ec2
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.EC_HOST }}
+          username: ${{ secrets.EC_USER }}
+          key: ${{ secrets.EC_SSH_KEY }}
+        script: |
+           if [ ! -d "/home/ubuntu/deployment/.git" ] then:
+              git clone -b main https://github.com/ansh-dot-labs/deployment.git /home/ubuntu/deployment
+           else
+              cd /home/ubuntu/deployment
+              git pull --ff-only origin main
+           end
+
+           cd /home/ubuntu/deployment
+
+           npm ci
+
+           npm run build
+
+           echo "Deployment successfully"
