@@ -14,10 +14,10 @@ jobs:
 
     steps:
       - name: check code
-        uses: actions/checkout@6
+        uses: actions/checkout@v4
 
       - name: setup node js
-        uses: actions/setup-node@6
+        uses: actions/setup-node@v4
         with:
           node-version: 22
 
