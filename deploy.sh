@@ -1,9 +1,9 @@
-if [ ! -d "/home/ubuntu/deployment/.git" ] then:
+if [ ! -d "/home/ubuntu/deployment/.git" ]; then
    git clone -b main https://github.com/ansh-dot-labs/deployment.git /home/ubuntu/deployment
 else
    cd /home/ubuntu/deployment
    git pull --ff-only origin main
-end
+fi
 
 cd /home/ubuntu/deployment
 
